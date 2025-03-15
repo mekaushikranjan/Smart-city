@@ -1,9 +1,10 @@
-// src/utils/api.js
 import axios from 'axios';
 import { logout } from '../utils/auth'; // Optional: If you have auth utilities
-const API_URL = process.env.REACT_APP_API_URL;
+
+const API_URL = process.env.REACT_APP_API_URL || ''; // Default empty string if undefined
+
 const apiClient = axios.create({
-  baseURL: '${API_URL}/api',
+  baseURL: API_URL ? `${API_URL}/api` : 'http://localhost:5000/api', // Fallback for local development
   withCredentials: true,
   timeout: 10000, // 10 seconds
   headers: {
@@ -26,7 +27,7 @@ apiClient.interceptors.response.use(
   response => response,
   error => {
     const { response } = error;
-    
+
     // Handle timeout errors
     if (error.code === 'ECONNABORTED') {
       console.error('Request timed out');
@@ -46,6 +47,11 @@ apiClient.interceptors.response.use(
       return Promise.reject({ 
         message: 'You do not have permission to access this resource' 
       });
+    }
+
+    // Log errors in development mode
+    if (process.env.NODE_ENV === 'development') {
+      console.error('API Error:', response);
     }
 
     // Generic error handling
