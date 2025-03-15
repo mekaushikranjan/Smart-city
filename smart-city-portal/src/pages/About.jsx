@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Typography } from "@mui/material";
-import "../styles/about.css";
+import "../styles/about.css";  // if styles is inside src/
 
 const About = () => {
   return (
