@@ -12,7 +12,7 @@ export default defineConfig({
   build: {
     outDir: "dist",
     rollupOptions: {
-      input: "index.html",  // ✅ Fix: Correct the input path
+      input: "public/index.html",  // ✅ Fix: Correct the input path
     },
   },
   server: {
