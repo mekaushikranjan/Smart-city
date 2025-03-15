@@ -8,14 +8,16 @@ export default defineConfig({
     host: "0.0.0.0",
   },
   root: ".",  // Ensure Vite uses the correct root directory
-  publicDir: "public", // Ensure Vite finds index.html
+  publicDir: "public", // Ensure Vite finds static assets
   build: {
     outDir: "dist",
     rollupOptions: {
-      input: "public/index.html", // Explicitly tell Rollup where to find index.html
+      input: "index.html", // Corrected: Rollup expects index.html in root
     },
   },
   server: {
+    host: "0.0.0.0", // Allow external access (important for Render)
+    port: 3000, // Default port for local development
     proxy: {
       "/api": {
         target: "http://localhost:5000",
