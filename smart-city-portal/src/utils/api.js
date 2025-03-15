@@ -4,7 +4,7 @@ import { logout } from '../utils/auth'; // Optional: If you have auth utilities
 const API_URL = process.env.REACT_APP_API_URL || ''; // Default empty string if undefined
 
 const apiClient = axios.create({
-  baseURL: API_URL ? `${API_URL}/api` : 'http://localhost:5000/api', // Fallback for local development
+  baseURL: process.env.REACT_APP_API_URL + "/api",
   withCredentials: true,
   timeout: 10000, // 10 seconds
   headers: {

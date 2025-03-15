@@ -6,14 +6,22 @@ import axios from "axios";
 import "../styles/Auth.css";
 
 const Auth = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, checkAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [tab, setTab] = useState(0);
   const [credentials, setCredentials] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Clear error and reset credentials when switching tabs
+  // API URL from environment variables
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080"; // Fallback for local testing
+
+  // Check if user is already authenticated (helps on refresh)
+  useEffect(() => {
+    if (user) navigate("/dashboard");
+  }, [user, navigate]);
+
+  // Reset error and input fields when switching tabs
   useEffect(() => {
     setError("");
     setCredentials({ name: "", email: "", password: "" });
@@ -22,7 +30,6 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic field validation
     if (!credentials.email || !credentials.password || (tab === 1 && !credentials.name)) {
       setError("Please fill in all fields.");
       return;
@@ -32,24 +39,23 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      // Use relative URL so that the Vite proxy forwards to your backend
-      const endpoint = tab === 0 ? "/api/auth/login" : "/api/auth/register";
+      const endpoint = tab === 0 ? "login" : "register";
       const payload =
         tab === 1
           ? { name: credentials.name, email: credentials.email, password: credentials.password }
           : { email: credentials.email, password: credentials.password };
 
-      const response = await axios.post(endpoint, payload, {
-        withCredentials: true, // Ensure session cookies are sent
+      const response = await axios.post(`${API_URL}/api/auth/${endpoint}`, payload, {
+        withCredentials: true,
       });
 
-      if (response.data.user && setUser) {
+      if (response.data.user) {
         setUser(response.data.user);
         navigate("/dashboard");
       }
     } catch (error) {
-      console.error("Error:", error.response?.data || error);
-      setError(error.response?.data?.message || "Something went wrong");
+      console.error("Error:", error.response?.data || error.message);
+      setError(error.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -99,7 +105,7 @@ const Auth = () => {
           className="auth-input"
         />
         <Button type="submit" variant="contained" className="auth-btn" fullWidth disabled={loading}>
-          {loading ? <CircularProgress size={24} color="inherit" /> : (tab === 0 ? "Login" : "Register")}
+          {loading ? <CircularProgress size={24} color="inherit" /> : tab === 0 ? "Login" : "Register"}
         </Button>
       </form>
     </Container>
