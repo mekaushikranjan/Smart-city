@@ -4,20 +4,20 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   preview: {
-    port: process.env.PORT || 3000,  // Use Render’s assigned port
+    port: parseInt(process.env.PORT) || 3000,
     host: "0.0.0.0",
   },
-  root: ".",  // Ensure Vite uses the correct root directory
-  publicDir: "public", // Ensure Vite finds static assets
+  root: ".",  
+  publicDir: "public",
   build: {
     outDir: "dist",
     rollupOptions: {
-      input: "index.html", // Corrected: Rollup expects index.html in root
+      input: "index.html",  // ✅ Fix: Correct the input path
     },
   },
   server: {
-    host: "0.0.0.0", // Allow external access (important for Render)
-    port: 3000, // Default port for local development
+    host: "0.0.0.0",
+    port: 3000,
     proxy: {
       "/api": {
         target: "http://localhost:5000",
