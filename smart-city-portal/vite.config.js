@@ -3,6 +3,10 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  preview: {
+    port: process.env.PORT || 3000,  // Use Render’s assigned port
+    host: "0.0.0.0",
+  },
   root: ".",  // Ensure Vite uses the correct root directory
   publicDir: "public", // Ensure Vite finds index.html
   build: {
@@ -12,12 +16,6 @@ export default defineConfig({
     },
   },
   server: {
-    port: process.env.PORT || 3000, // Use Render's provided PORT
-    host: "0.0.0.0",
-    preview: {
-      port: process.env.PORT || 3000,
-      host: "0.0.0.0",
-    },
     proxy: {
       "/api": {
         target: "http://localhost:5000",
