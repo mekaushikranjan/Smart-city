@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import "../styles/footer.css"; 
+import "../styles/Footer.css";
 
 const Footer = () => {
   return (
