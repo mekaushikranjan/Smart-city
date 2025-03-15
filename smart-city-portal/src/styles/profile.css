@@ -1,0 +1,27 @@
+.profile-container {
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+  }
+  
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 20px auto;
+  }
+  
+  .profile-input {
+    margin-top: 15px;
+  }
+  
+  .save-btn {
+    margin-top: 20px;
+    background-color: #0288d1;
+    color: white;
+  }
+  
+  .save-btn:hover {
+    background-color: #0277bd;
+  }
+  

@@ -1,0 +1,6 @@
+/* Dark Mode styles (if needed) */
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

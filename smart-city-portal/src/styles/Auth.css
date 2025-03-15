@@ -1,0 +1,41 @@
+/* styles/auth.css */
+/* styles/auth.css */
+.auth-container {
+    margin-top: 100px; /* Ensure this pushes the Auth content below the fixed Navbar */
+    max-width: 400px;
+    padding: 20px;
+    background-color: #ffffff; /* Set a white background */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    color: #000; /* Ensure text is visible */
+  }
+  
+  
+  .auth-tabs {
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+  
+  .auth-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #1976d2; /* Blue title */
+  }
+  
+  .auth-input {
+    margin-bottom: 15px;
+  }
+  
+  .auth-btn {
+    margin-top: 10px;
+    background: #1976d2;
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .auth-btn:hover {
+    background: #115293;
+  }
+  

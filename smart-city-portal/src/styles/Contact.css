@@ -1,0 +1,65 @@
+/* Contact Page Styles */
+.contact-container {
+    padding-top: 80px; /* Account for navbar */
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center; /* Center everything vertically */
+    align-items: center; /* Center horizontally */
+    text-align: center;
+}
+
+/* Title & Text */
+.contact-title {
+    font-size: 2.5rem;
+    color: #1976D2;
+    margin-bottom: 20px;
+}
+
+.contact-text {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* Centered Form */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensure everything is centered */
+    gap: 15px;
+    width: 100%;
+    max-width: 400px; /* Restrict width for proper alignment */
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Input & Textarea */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Button */
+.contact-form button {
+    background-color: #1976D2;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    max-width: 200px; /* Keep button from stretching */
+    text-align: center;
+}
+
+.contact-form button:hover {
+    background-color: #115293;
+}

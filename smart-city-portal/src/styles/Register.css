@@ -1,0 +1,42 @@
+/* Register Page Container */
+.register-container {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  /* Register Title */
+  .register-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #1976d2;
+    margin-bottom: 20px;
+  }
+  
+  /* Form Styling */
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  /* Input Fields */
+  .register-input {
+    background: white;
+    border-radius: 6px;
+  }
+  
+  /* Register Button */
+  .register-button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  
+  .register-button:hover {
+    background-color: #1259a7;
+  }
+  
