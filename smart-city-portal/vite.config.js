@@ -3,10 +3,13 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  root: '.',
-  publicDir: "public", // Make sure Vite finds the index.html
+  root: ".",  // Ensure Vite uses the correct root directory
+  publicDir: "public", // Ensure Vite finds index.html
   build: {
     outDir: "dist",
+    rollupOptions: {
+      input: "public/index.html", // Explicitly tell Rollup where to find index.html
+    },
   },
   server: {
     proxy: {
