@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Button, Drawer, IconButton, Avatar } from 
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import CloseIcon from "@mui/icons-material/Close";
-import "../styles/navbar.css";
+import "../styles/Navbar.css";
 
 const Navbar = () => {
   const { user, setUser } = useContext(AuthContext);
