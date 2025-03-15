@@ -10,7 +10,7 @@ import {
   Snackbar
 } from "@mui/material";
 import { ComplaintContext } from "../context/ComplaintContext";
-import "../styles/complaintList.css";
+import "../styles/ComplaintList.css";
 
 const statusColors = {
   Pending: "warning",

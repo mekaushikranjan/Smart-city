@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Container, TextField, Button, Typography, Paper } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
 import API from "../utils/api"; // Ensure you have API setup
-import "../styles/user.css";
+import "../styles/User.css";
 
 const User = () => {
   const { user, setUser } = useContext(AuthContext);

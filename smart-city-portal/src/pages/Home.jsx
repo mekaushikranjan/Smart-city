@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext"; // ✅ Import AuthContext
 import About from "./About";
 import Services from "./Services";
 import Contact from "./Contact";
-import "../styles/home.css";
+import "../styles/Home.css";
 
 const Home = () => {
   const location = useLocation();

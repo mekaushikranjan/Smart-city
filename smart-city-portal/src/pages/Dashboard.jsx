@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import ComplaintForm from "./ComplaintForm";
-import "../styles/dashboard.css";
+import "../styles/Dashboard.css";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);

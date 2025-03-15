@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Container, Typography, Paper, List, ListItem, ListItemText } from "@mui/material";
 import { ComplaintContext } from "../context/ComplaintContext";
-import "../styles/complaintsDetails.css";
+import "../styles/ComplaintsDetails.css";
 
 const ComplaintDetails = () => {
   const { complaints } = useContext(ComplaintContext);

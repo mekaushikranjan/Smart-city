@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Typography, List, ListItem, ListItemText } from "@mui/material";
-import "../styles/services.css";
+import "../styles/Services.css";
 
 const Services = () => {
   return (

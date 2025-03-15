@@ -3,7 +3,7 @@ import { Container, TextField, Button, Typography, Tabs, Tab, CircularProgress }
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../styles/auth.css";
+import "../styles/Auth.css";
 
 const Auth = () => {
   const { user, setUser } = useContext(AuthContext);

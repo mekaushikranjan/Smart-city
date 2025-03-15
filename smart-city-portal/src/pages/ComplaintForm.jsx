@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Container, TextField, Button, Typography } from "@mui/material";
 import { ComplaintContext } from "../context/ComplaintContext";
 import { useNavigate } from "react-router-dom"; // ✅ Redirect after submission
-import "../styles/complaintForm.css";
+import "../styles/ComplaintForm.css";
 
 const ComplaintForm = () => {
   const { addComplaint } = useContext(ComplaintContext);

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Container, TextField, Button, Avatar, Typography } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
-import "../styles/profile.css";
+import "../styles/Profile.css";
 
 const UserProfile = () => {
   const { user, setUser } = useContext(AuthContext);

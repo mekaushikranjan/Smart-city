@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Typography, TextField, Button, Box } from "@mui/material";
-import "../styles/contact.css";
+import "../styles/Contact.css";
 
 const Contact = () => {
   return (
