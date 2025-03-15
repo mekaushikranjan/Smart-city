@@ -1,9 +1,9 @@
 // src/utils/api.js
 import axios from 'axios';
 import { logout } from '../utils/auth'; // Optional: If you have auth utilities
-
+const API_URL = process.env.REACT_APP_API_URL;
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: '${API_URL}/api',
   withCredentials: true,
   timeout: 10000, // 10 seconds
   headers: {
