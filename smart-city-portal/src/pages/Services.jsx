@@ -1,28 +1,29 @@
 import React from "react";
-import { Container, Typography, List, ListItem, ListItemText } from "@mui/material";
-import "../styles/Services.css";
+import { Container, Typography, List, ListItem, ListItemText, Box } from "@mui/material";
 
 const Services = () => {
   return (
-    <Container className="services-container">
-      <section className="services-section">
-        <Typography variant="h4" className="services-title">Our Services</Typography>
-        <List className="services-list">
-          <ListItem>
-            <ListItemText primary="Pothole Reporting" />
+    <Box id="services" sx={{ color: "white", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", position: "relative", zIndex: 1 }}>
+      <Container maxWidth="md">
+        <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, color: "#3498db" }}>
+          Our Services
+        </Typography>
+        <List sx={{ color: "#a0aec0", maxWidth: 600, mx: "auto" }}>
+          <ListItem sx={{ justifyContent: "center" }}>
+            <ListItemText primary="Pothole Reporting" sx={{ textAlign: "center" }} />
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Streetlight Repairs" />
+          <ListItem sx={{ justifyContent: "center" }}>
+            <ListItemText primary="Streetlight Repairs" sx={{ textAlign: "center" }} />
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Garbage Collection Tracking" />
+          <ListItem sx={{ justifyContent: "center" }}>
+            <ListItemText primary="Garbage Collection Tracking" sx={{ textAlign: "center" }} />
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Water Supply Issues" />
+          <ListItem sx={{ justifyContent: "center" }}>
+            <ListItemText primary="Water Supply Issues" sx={{ textAlign: "center" }} />
           </ListItem>
         </List>
-      </section>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

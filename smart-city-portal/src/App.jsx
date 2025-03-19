@@ -1,129 +1,131 @@
-import React, { Suspense, lazy, useContext, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import AuthProvider, { AuthContext } from "./context/AuthContext";
+import React, { Suspense, lazy, useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import ComplaintProvider from "./context/ComplaintContext";
+import { ThemeProviderComponent } from "./context/ThemeContext";
+import axios from "axios";
 
 // Lazy Loaded Pages
 const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login")); // Although imported, not used if using combined Auth
+const Register = lazy(() => import("./pages/Register"));
+const Navbar = lazy(() => import("./components/Navbar"));
 const About = lazy(() => import("./pages/About"));
 const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
-const Auth = lazy(() => import("./pages/Auth"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const ComplaintForm = lazy(() => import("./pages/ComplaintForm"));
 const ComplaintDetails = lazy(() => import("./pages/ComplaintDetails"));
+const Auth = lazy(() => import("./pages/Auth")); // Combined auth component
 
-// ProtectedRoute component for routes that require login (and optionally admin role)
-// ProtectedRoute component for routes that require login (and optionally admin role)
+// Loading component for better user experience
+const LoadingSpinner = () => (
+  <div className="loading-spinner">Loading...</div>
+);
+
+// ProtectedRoute component for authentication checks
 const ProtectedRoute = ({ children, adminOnly }) => {
-  const { user, loading } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-    const checkBackend = async () => {
+    const storedUser = localStorage.getItem('user');
+    const storedToken = localStorage.getItem('token');
+
+    if (storedUser) {
       try {
-        await axios.get("/api/health", {
-          withCredentials: true,
-          timeout: 3000,
-        });
-      } catch (err) {
-        console.error("Backend connection failed:", err);
+        // Ensure storedUser is valid JSON
+        if (storedUser !== "undefined" && storedUser !== null) {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+
+          // If you're using axios globally, set the auth header
+          if (storedToken) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+          }
+        }
+      } catch (error) {
+        console.error("Failed to parse stored user data:", error);
       }
-    };
-    checkBackend();
+    }
+    setIsLoading(false);
   }, []);
 
-  // While the AuthContext is loading, render a loading indicator
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  // Once loading is complete, if there's no authenticated user, redirect to /auth
-  if (!user) {
-    return <Navigate to="/auth" state={{ from: location }} />;
-  }
-
-  // If the route is admin-only and the user is not an admin, redirect to /dashboard
-  if (adminOnly && user.role !== "admin") {
-    return <Navigate to="/dashboard" />;
-  }
+  if (isLoading) return <LoadingSpinner />;
+  if (!user) return <Navigate to="/auth" state={{ from: location }} replace />;
+  if (adminOnly && user.role !== "admin") return <Navigate to="/dashboard" replace />;
 
   return children;
 };
 
-// Providers wrapper for context
-const Providers = ({ children }) => (
-  <AuthProvider>
-    <ComplaintProvider>{children}</ComplaintProvider>
-  </AuthProvider>
-);
-
-// HomeWrapper to scroll to top (and optionally handle redirection)
-const HomeWrapper = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    // Uncomment the following if you want to automatically redirect admins from Home:
-    // if (user?.role === "admin" && location.pathname === "/") {
-    //   navigate("/admindashboard");
-    // }
-  }, [location.pathname, user, navigate]);
-
-  return <Home />;
+// NavbarWrapper to handle Navbar loading separately
+const NavbarWrapper = () => {
+  return (
+    <Suspense fallback={<div style={{ height: "60px" }}></div>}>
+      <Navbar />
+    </Suspense>
+  );
 };
 
 function App() {
   return (
-    <Router>
-      <Providers>
-        <Navbar />
-        
-        <div className="main-content">
-          <Suspense fallback={<div className="loading-spinner">Loading...</div>}>
+    <ThemeProviderComponent>
+      <ComplaintProvider>
+        <Router>
+          <NavbarWrapper />
+          <Suspense fallback={<LoadingSpinner />}>
             <Routes>
               {/* Public Routes */}
-              <Route path="/" element={<HomeWrapper />} />
-              <Route path="/auth" element={<Auth />} />
+              <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/auth" element={<Auth />} />
 
-              {/* Protected User Routes */}
-              <Route path="/dashboard" element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } />
-              <Route path="/report" element={
-                <ProtectedRoute>
-                  <ComplaintForm />
-                </ProtectedRoute>
-              } />
-              <Route path="/complaints" element={
-                <ProtectedRoute>
-                  <ComplaintDetails />
-                </ProtectedRoute>
-              } />
+              {/* Protected Routes */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/report"
+                element={
+                  <ProtectedRoute>
+                    <ComplaintForm />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/complaints"
+                element={
+                  <ProtectedRoute>
+                    <ComplaintDetails />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Admin-Only Routes */}
-              <Route path="/admindashboard" element={
-                <ProtectedRoute adminOnly={true}>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              } />
+              <Route
+                path="/admindashboard"
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Catch-all redirect */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>
-        </div>
-        <Footer />
-      </Providers>
-    </Router>
+        </Router>
+      </ComplaintProvider>
+    </ThemeProviderComponent>
   );
 }
 

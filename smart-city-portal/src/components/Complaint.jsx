@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Container, TextField, Button, Typography, Grid, Card, CardContent } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
 import API from "../utils/api";
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const Complaint = () => {
   const { user } = useContext(AuthContext);
   const [complaints, setComplaints] = useState([]);
@@ -10,17 +10,20 @@ const Complaint = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const response = await API.get(`${API_BASE_URL}/complaints`, {
+          withCredentials: true,  // ✅ Ensures authentication works
+        });
+        setComplaints(response.data);
+      } catch (error) {
+        console.error("Error fetching complaints:", error);
+        setError("Error fetching complaints.");
+      }
+    };
+
     fetchComplaints();
   }, []);
-
-  const fetchComplaints = async () => {
-    try {
-      const response = await API.get("/complaints");
-      setComplaints(response.data);
-    } catch (error) {
-      console.error("Error fetching complaints:", error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

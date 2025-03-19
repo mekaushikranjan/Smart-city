@@ -5,11 +5,11 @@
   box-sizing: border-box;
 }
 
-html, body {
+html {
   height: 100%;
   font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5;
   scroll-behavior: smooth;
+  overflow-y: scroll; /* Allow scrolling */
 }
 
 #root {
@@ -24,30 +24,40 @@ html, body {
   flex: 1; /* Ensures content takes remaining height */
 }
 
-/* Hide scrollbar only when necessary */
+/* Hide scrollbar globally */
+body::-webkit-scrollbar {
+  display: none !important; /* Hides scrollbar in WebKit-based browsers */
+}
+
+body {
+  scrollbar-width: none !important; /* Hides scrollbar in Firefox */
+  -ms-overflow-style: none !important; /* Hides scrollbar in IE and older Edge */
+}
+
+/* Additional rule to ensure scrollbar is hidden */
 html {
-  overflow-y: scroll; /* Allow scrolling */
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+/* Global styles */
+body {
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* Optional: Hide scrollbar */
-::-webkit-scrollbar {
-  width: 6px; /* Keep a minimal scrollbar instead of hiding */
-}
+/* Mobile breakpoint */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 10px;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #888; /* Subtle scrollbar color */
-  border-radius: 4px;
-}
+  .navbar {
+    flex-direction: column;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-/* navbar.css */
-.admin-dashboard-btn {
-  background-color: #4CAF50 !important;
-  margin: 10px 0;
-}
-
-.user-sidebar .admin-dashboard-btn:hover {
-  background-color: #45a049 !important;
+  .footer {
+    text-align: center;
+  }
 }

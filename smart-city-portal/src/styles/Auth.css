@@ -1,41 +1,85 @@
-/* styles/auth.css */
-/* styles/auth.css */
 .auth-container {
-    margin-top: 100px; /* Ensure this pushes the Auth content below the fixed Navbar */
-    max-width: 400px;
-    padding: 20px;
-    background-color: #ffffff; /* Set a white background */
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    color: #000; /* Ensure text is visible */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 350px; /* Reduced max-width for a more compact form */
+  margin: 40px auto; /* Centers horizontally with top and bottom margins */
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-tabs {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.auth-title {
+  margin-bottom: 20px;
+  font-size: 20px; /* Adjusted font size for better readability */
+}
+
+.auth-error {
+  margin-bottom: 20px;
+  font-size: 14px; /* Adjusted font size for error messages */
+}
+
+.auth-input {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.auth-btn {
+  padding: 10px; /* Reduced padding for a more compact button */
+  font-size: 16px; /* Adjusted font size for better readability */
+  margin-top: 20px; /* Added margin to separate button from inputs */
+  margin-bottom: 20px; /* Added margin below the button */
+  width: 100%;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+  .auth-container {
+    padding: 15px;
+    margin: 20px auto; /* Adjusts margins for smaller screens */
   }
-  
-  
-  .auth-tabs {
-    margin-bottom: 20px;
-    justify-content: center;
-  }
-  
   .auth-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #1976d2; /* Blue title */
+    font-size: 18px;
   }
-  
-  .auth-input {
-    margin-bottom: 15px;
-  }
-  
   .auth-btn {
-    margin-top: 10px;
-    background: #1976d2;
-    color: white;
-    font-weight: bold;
-    transition: background 0.3s ease;
+    padding: 10px;
+    font-size: 14px;
   }
-  
-  .auth-btn:hover {
-    background: #115293;
+}
+
+@media only screen and (max-width: 480px) {
+  .auth-container {
+    padding: 10px;
+    margin: 10px auto; /* Further adjusts margins for very small screens */
   }
-  
+  .auth-title {
+    font-size: 16px;
+  }
+  .auth-btn {
+    padding: 10px;
+    font-size: 12px;
+  }
+}
+
+/* Prevent form resizing on refresh */
+form {
+  width: 100%;
+}
+
+/* Center form elements */
+form > * {
+  margin-bottom: 20px;
+}
+
+/* Make form responsive */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

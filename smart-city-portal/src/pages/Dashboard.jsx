@@ -1,65 +1,114 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ComplaintForm from "./ComplaintForm";
-import "../styles/Dashboard.css";
+import {
+  Box,
+  Card,
+  Typography,
+  Button,
+  CircularProgress,
+  Modal,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
-  // Remove automatic redirection for admin users.
-  // Admins will see the dashboard with an Admin Panel that includes a link to /admindashboard.
-  
-  if (!user) return <h2>Please log in to access the dashboard.</h2>;
+  useEffect(() => {
+    fetch("/api/auth/checkSession", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.isAuthenticated) {
+          navigate("/auth");
+        } else {
+          setUser(data.user);
+        }
+      })
+      .catch((err) => console.error("Session check failed:", err));
+  }, [navigate, setUser]);
+
+  if (!user) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-    <div className="dashboard-container">
-      <h1 className="dashboard-title">Welcome, {user.name}!</h1>
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Card sx={{ p: 4, width: "90%", maxWidth: 500, textAlign: "center", bgcolor: "background.paper" }}>
+        <Typography variant="h4" gutterBottom>
+          Welcome, {user.name}!
+        </Typography>
 
-      {user.role === "admin" ? (
-        // Admin Panel: Display admin-specific information and a link to the admin dashboard.
-        <div className="dashboard-panel admin-panel">
-          <h2>Admin Panel</h2>
-          <p>You're logged in as an admin.</p>
-  
-        </div>
-      ) : (
-        // User Panel: Display user information and a button to file a complaint.
-        <div className="dashboard-panel user-panel">
-          <h2>Welcome, {user.email}</h2>
-          <h2>Complaints:</h2>
-          {/* If you have complaints to display, you can render them here */}
-          <button
-            className="dashboard-button user-btn"
-            onClick={() => setShowForm(true)}
+        {user.role === "admin" ? (
+          <Box>
+            <Typography variant="h6" color="textSecondary" gutterBottom>
+              Admin Panel
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+              onClick={() => navigate("/admindashboard")}
+            >
+              Go to Admin Dashboard
+            </Button>
+          </Box>
+        ) : (
+          <Box>
+            <Typography variant="h6" color="textSecondary">
+              Your Email: {user.email}
+            </Typography>
+            <Typography variant="h6" sx={{ mt: 2 }}>
+              Complaints:
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ mt: 2 }}
+              onClick={() => setShowForm(true)}
+            >
+              File Complaint
+            </Button>
+          </Box>
+        )}
+
+        {/* Complaint Form Modal */}
+        <Modal open={showForm} onClose={() => setShowForm(false)}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "90%",
+              maxWidth: 400,
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: 2,
+            }}
           >
-            File Complaint
-          </button>
-        </div>
-      )}
-
-      {showForm && (
-        <div className="popup">
-          <div className="popup-content">
-            <button className="close-btn" onClick={() => setShowForm(false)}>
-              X
-            </button>
+            <IconButton
+              sx={{ position: "absolute", top: 10, right: 10 }}
+              onClick={() => setShowForm(false)}
+            >
+              <CloseIcon />
+            </IconButton>
             <ComplaintForm />
-          </div>
-        </div>
-      )}
-    </div>
+          </Box>
+        </Modal>
+      </Card>
+    </Box>
   );
 };
 
 export default Dashboard;
-
-
-
-
-
-
-
-
